@@ -1,79 +1,75 @@
 'use strict';
+
 const {
   getRandomInt,
   shuffle,
 } = require(`../../utils`);
+const {
+  ExitCode
+} = require(`../../constants`);
 
-const DEFAULT_COUNT = 1;
-const FILE_NAME = `mocks.json`;
+const fs = require(`fs`);
 
-const TITLES = [
-  `Продам книги Стивена Кинга`,
-  `Продам новую приставку Sony Playstation 5`,
-  `Продам отличную подборку фильмов на VHS`,
-  `Куплю антиквариат`,
-  `Куплю породистого кота`,
-];
+const {
+  DEFAULT_COUNT,
+  FILE_NAME,
+  TITLES,
+  SENTENCES,
+  CATEGORIES,
+  OfferType,
+  SumRestrict,
+  PictureRestrict,
+} = require(`./cliConstants`);
 
-const SENTENCES = [
-  `Товар в отличном состоянии.`,
-  `Пользовались бережно и только по большим праздникам.`,
-  `Продаю с болью в сердце...`,
-  `Бонусом отдам все аксессуары.`,
-  `Даю недельную гарантию.`,
-  `Если товар не понравится — верну всё до последней копейки.`,
-  `Это настоящая находка для коллекционера!`,
-  `Если найдёте дешевле — сброшу цену.`,
-  `Таких предложений больше нет!`,
-  `При покупке с меня бесплатная доставка в черте города.`,
-];
-
-const CATEGORIES = [
-  `Книги`,
-  `Разное`,
-  `Посуда`,
-  `Игры`,
-  `Животные`,
-  `Журналы`,
-];
-
-const OfferType = {
-  OFFER: `offer`,
-  SALE: `sale`,
-};
-
-
-const SumRestrict = {
-  MIN: 1000,
-  MAX: 100000,
-};
-
-const PictureRestrict = {
-  MIN: 1,
-  MAX: 16,
-};
 
 const getPictureFileName = (number) => {
-  return `item${number}.jpg, `;
+  let value = number < 10 ? `0${number}` : number;
+  return `item${value}.jpg, `;
+};
+const getCategories = () => {
+  const categoryCount = getRandomInt(0, CATEGORIES.length - 1);
+  const categories = [];
+  for (let i = 0; i < categoryCount - 1; i++) {
+    categories.push(CATEGORIES[getRandomInt(1, CATEGORIES.length - 1)]);
+  }
+
+  return categories;
 };
 
-const generateOffers = (count) => (
-  Array(count).fill({}).map(() => ({
-    category: [CATEGORIES[getRandomInt(0, CATEGORIES.length - 1)]],
-    description: shuffle(SENTENCES).slice(1, 5).join(` `),
-    picture: getPictureFileName(getRandomInt(PictureRestrict.MIN, PictureRestrict.MAX)),
+const generateOffers = (count) => {
+  return Array(count).fill({}).map(() => ({
     title: TITLES[getRandomInt(0, TITLES.length - 1)],
+    picture: getPictureFileName(getRandomInt(PictureRestrict.MIN, PictureRestrict.MAX)),
+    description: shuffle(SENTENCES).slice(1, 5).join(` `),
     type: OfferType[Object.keys(OfferType)[Math.floor(Math.random() * Object.keys(OfferType).length)]],
     sum: getRandomInt(SumRestrict.MIN, SumRestrict.MAX),
-  }))
-);
+    category: getCategories(),
+  }));
+
+};
+
+const writeFile = (content) => {
+  fs.writeFile(FILE_NAME, content, (err) => {
+    if (err) {
+      console.error(`Can't write data to file...`);
+      process.exit(ExitCode.error);
+    }
+
+    return console.info(`Operation success. File created.`);
+  });
+};
+
+const generateMockData = (args) => {
+  const [count] = args;
+  const countOffer = Number.parseInt(count, 10) || DEFAULT_COUNT;
+  return JSON.stringify(generateOffers(countOffer));
+
+};
 
 module.exports = {
   name: `--generate`,
   run(args) {
-    const [count] = args;
-    const countOffer = Number.parseInt(count, 10) || DEFAULT_COUNT;
-    const content = JSON.stringify(generateOffers(countOffer));
-    return content;
+    const data = generateMockData(args);
+    writeFile(data);
   }
 };
