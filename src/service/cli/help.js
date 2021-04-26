@@ -1,10 +1,10 @@
-'use strinct';
+'use strict';
 
 module.exports = {
   name: `--help`,
   run() {
 
-  const text = `
+    const text = `
     Программа запускает http-сервер и формирует файл с данными для api.
     Гайд:
       server <command>
