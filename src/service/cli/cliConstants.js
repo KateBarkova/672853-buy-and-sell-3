@@ -24,6 +24,8 @@ const SENTENCES = [
   `При покупке с меня бесплатная доставка в черте города.`,
 ];
 
+const SENTENCES_COUNT = 5;
+
 const CATEGORIES = [
   `Книги`,
   `Разное`,
@@ -54,6 +56,7 @@ module.exports = {
   FILE_NAME,
   TITLES,
   SENTENCES,
+  SENTENCES_COUNT,
   CATEGORIES,
   OfferType,
   SumRestrict,

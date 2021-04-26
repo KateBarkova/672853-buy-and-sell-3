@@ -15,6 +15,7 @@ const {
   FILE_NAME,
   TITLES,
   SENTENCES,
+  SENTENCES_COUNT,
   CATEGORIES,
   OfferType,
   SumRestrict,
@@ -23,27 +24,18 @@ const {
 
 
 const getPictureFileName = (number) => {
-  let value = number < 10 ? `0${number}` : number;
-  return `item${value}.jpg, `;
-};
-const getCategories = () => {
-  const categoryCount = getRandomInt(0, CATEGORIES.length - 1);
-  const categories = [];
-  for (let i = 0; i < categoryCount - 1; i++) {
-    categories.push(CATEGORIES[getRandomInt(1, CATEGORIES.length - 1)]);
-  }
-
-  return categories;
+  const value = number.toString().padStart(2, `0`);
+  return `item${value}.jpg`;
 };
 
 const generateOffers = (count) => {
   return Array(count).fill({}).map(() => ({
     title: TITLES[getRandomInt(0, TITLES.length - 1)],
     picture: getPictureFileName(getRandomInt(PictureRestrict.MIN, PictureRestrict.MAX)),
-    description: shuffle(SENTENCES).slice(1, 5).join(` `),
+    description: shuffle(SENTENCES).slice(1, SENTENCES_COUNT).join(` `),
     type: OfferType[Object.keys(OfferType)[Math.floor(Math.random() * Object.keys(OfferType).length)]],
     sum: getRandomInt(SumRestrict.MIN, SumRestrict.MAX),
-    category: getCategories(),
+    category: shuffle(CATEGORIES).slice(0, getRandomInt(1, CATEGORIES.length)),
   }));
 
 };
