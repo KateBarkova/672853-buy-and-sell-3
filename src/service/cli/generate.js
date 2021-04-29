@@ -1,5 +1,7 @@
 'use strict';
 
+const chalk = require(`chalk`);
+
 const {
   getRandomInt,
   shuffle,
@@ -43,11 +45,10 @@ const generateOffers = (count) => {
 const writeFile = (content) => {
   fs.writeFile(FILE_NAME, content, (err) => {
     if (err) {
-      console.error(`Can't write data to file...`);
+      console.error(chalk.red(`Can't write data to file...`));
       process.exit(ExitCode.error);
     }
-
-    return console.info(`Operation success. File created.`);
+    return console.log(chalk.green(`Operation success. File created.`));
   });
 };
 
