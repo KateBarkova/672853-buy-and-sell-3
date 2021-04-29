@@ -1,5 +1,8 @@
 'use strict';
 
+const chalk = require(`chalk`);
+const fs = require(`fs`).promises;
+
 const {
   getRandomInt,
   shuffle,
@@ -7,8 +10,6 @@ const {
 const {
   ExitCode
 } = require(`../../constants`);
-
-const fs = require(`fs`);
 
 const {
   DEFAULT_COUNT,
@@ -40,15 +41,14 @@ const generateOffers = (count) => {
 
 };
 
-const writeFile = (content) => {
-  fs.writeFile(FILE_NAME, content, (err) => {
-    if (err) {
-      console.error(`Can't write data to file...`);
-      process.exit(ExitCode.error);
-    }
-
-    return console.info(`Operation success. File created.`);
-  });
+const writeFile = async (content) => {
+  try {
+    await fs.writeFile(FILE_NAME, content);
+    console.log(chalk.green(`Operation success. File created.`));
+  } catch (err) {
+    console.error(chalk.red(`Can't write data to file...`));
+    process.exit(ExitCode.error);
+  }
 };
 
 const generateMockData = (args) => {
