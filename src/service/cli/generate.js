@@ -14,13 +14,13 @@ const {
 const {
   DEFAULT_COUNT,
   FILE_NAME,
-  TITLES,
-  SENTENCES,
   SENTENCES_COUNT,
-  CATEGORIES,
   OfferType,
   SumRestrict,
   PictureRestrict,
+  FILE_SENTENCES_PATH,
+  FILE_TITLES_PATH,
+  FILE_CATEGORIES_PATH,
 } = require(`./cliConstants`);
 
 
@@ -29,16 +29,25 @@ const getPictureFileName = (number) => {
   return `item${value}.jpg`;
 };
 
-const generateOffers = (count) => {
+const generateOffers = (count, titles, categories, sentences) => {
   return Array(count).fill({}).map(() => ({
-    title: TITLES[getRandomInt(0, TITLES.length - 1)],
+    title: titles[getRandomInt(0, titles.length - 1)],
     picture: getPictureFileName(getRandomInt(PictureRestrict.MIN, PictureRestrict.MAX)),
-    description: shuffle(SENTENCES).slice(1, SENTENCES_COUNT).join(` `),
+    description: shuffle(sentences).slice(1, SENTENCES_COUNT).join(` `),
     type: OfferType[Object.keys(OfferType)[Math.floor(Math.random() * Object.keys(OfferType).length)]],
     sum: getRandomInt(SumRestrict.MIN, SumRestrict.MAX),
-    category: shuffle(CATEGORIES).slice(0, getRandomInt(1, CATEGORIES.length)),
+    category: shuffle(categories).slice(0, getRandomInt(1, categories.length)),
   }));
+};
 
+const readContent = async (filePath) => {
+  try {
+    const content = await fs.readFile(filePath, `utf8`);
+    return content.split(`\n`);
+  } catch (err) {
+    console.error(chalk.red(err));
+    return [];
+  }
 };
 
 const writeFile = async (content) => {
@@ -51,17 +60,16 @@ const writeFile = async (content) => {
   }
 };
 
-const generateMockData = (args) => {
-  const [count] = args;
-  const countOffer = Number.parseInt(count, 10) || DEFAULT_COUNT;
-  return JSON.stringify(generateOffers(countOffer));
-
-};
-
 module.exports = {
   name: `--generate`,
-  run(args) {
-    const data = generateMockData(args);
+  async run(args) {
+    const sentences = await readContent(FILE_SENTENCES_PATH);
+    const titles = await readContent(FILE_TITLES_PATH);
+    const categories = await readContent(FILE_CATEGORIES_PATH);
+
+    const [count] = args;
+    const countOffer = Number.parseInt(count, 10) || DEFAULT_COUNT;
+    const data = JSON.stringify(generateOffers(countOffer, titles, categories, sentences));
     writeFile(data);
   }
 };
