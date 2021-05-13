@@ -22,6 +22,7 @@ app.use(`/my`, myRoutes);
 app.use(`/`, mainRoutes);
 
 app.use((req, res) => res.status(400).render(`errors/404`));
+// eslint-disable-next-line no-unused-vars
 app.use((err, req, res, next) => res.status(500).render(`errors/500`));
 
 app.listen(DEFAULT_PORT);
