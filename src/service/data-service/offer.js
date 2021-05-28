@@ -28,6 +28,7 @@ class OfferService {
     }
 
     this._offers = this._offers.filter((item) => item.id !== id);
+    console.log(11111, id, this._offers);
     return offer;
   }
 
