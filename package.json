@@ -4,12 +4,12 @@
   "description": "Куплю. Продам",
   "main": "./src/service/service.js",
   "scripts": {
-    "test": "npm run eslint && npm run jest",
+    "test": "npm run eslint && npm run test::rest",
     "eslint": "eslint --ext .js src/",
     "start": "node ./src/service/service.js",
     "server": "nodemon ./src/service/service.js --server 3000",
     "start-front-server": "nodemon ./src/express/index.js",
-    "jest": "jest"
+    "test::rest": "jest"
   },
   "repository": {
     "type": "git",
