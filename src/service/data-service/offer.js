@@ -12,7 +12,10 @@ class OfferService {
     const newOffer = Object
       .assign({id: nanoid(MAX_ID_LENGTH), comments: []}, offer);
 
-    this._offers.push(newOffer);
+    this._offers = [
+      ...this._offers,
+      newOffer
+    ];
     return newOffer;
   }
 
