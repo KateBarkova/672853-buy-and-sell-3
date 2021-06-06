@@ -19,6 +19,11 @@ const HttpCode = {
   BAD_REQUEST: 400,
 };
 
+const Env = {
+  DEVELOPMENT: `development`,
+  PRODUCTION: `production`
+};
+
 
 module.exports = {
   DEFAULT_COMMAND,
@@ -26,5 +31,6 @@ module.exports = {
   MAX_COUNT,
   ExitCode,
   HttpCode,
+  Env,
 };
 
