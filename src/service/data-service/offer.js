@@ -45,10 +45,15 @@ class OfferService {
     return this.find(id);
   }
 
-  update(id, offer) {
-    const oldOffer = this.find(id);
+  update(id, newOffer) {
+    this._offers = this._offers.map((offer) => offer.id === id ? {
+      ...offer,
+      ...newOffer,
+    } : offer);
 
-    return Object.assign(oldOffer, offer);
+    const offer = this.find(id);
+
+    return offer;
   }
 
 }
