@@ -10,6 +10,18 @@ body
   mixin ticketLabel(type)
     span(class != attributes.class || `ticket-card__label`) #{type === `OFFER` ? `Куплю` : `Продам`}
 
+  mixin getWordForm(number, variants)
+    -
+      const n = Math.abs(number) % 100;
+      const n1 = n % 10;
+      let word = variants[2];
+      if (n > 10 && n < 20) word = variants[2];
+      if (n1 > 1 && n1 < 5) word = variants[1];
+      if (n1 === 1) word = variants[0];
+      const result = ` ${number} ${word}`
+
+    span.js-results #{result}
+
   include partials/header.pug
   block content
   include partials/footer.pug

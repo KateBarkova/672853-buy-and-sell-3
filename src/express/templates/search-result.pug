@@ -7,7 +7,7 @@ block content
       .search-results__wrapper
         p.search-results__label
           | Найдено
-          span.js-results #{results.length} публикаций
+          +getWordForm(results.length, [`публикация`, `публикации`, `публикаций`])
         ul.search-results__list
           each result in results
             li.search-results__item
