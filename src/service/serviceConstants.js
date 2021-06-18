@@ -1,7 +1,10 @@
 'use strict';
 
 const DEFAULT_COUNT = 1;
+
 const FILE_NAME = `mocks.json`;
+
+const FILL_DB_SQL = `fill-db.sql`;
 
 const DEFAULT_PORT = 3000;
 
@@ -38,6 +41,7 @@ const NOT_FOUND_MESSAGE_TEXT = `Not found`;
 module.exports = {
   DEFAULT_COUNT,
   FILE_NAME,
+  FILL_DB_SQL,
   SENTENCES_COUNT,
   FILE_SENTENCES_PATH,
   FILE_TITLES_PATH,
