@@ -9,108 +9,7 @@ const DataService = require(`../data-service/offer`);
 const CommentService = require(`../data-service/comment`);
 const {HttpCode} = require(`../../constants`);
 
-const mockData = [
-  {
-    "id": `4zTBRX`,
-    "title": `Куплю антиквариат`,
-    "picture": `item11.jpg`,
-    "description": `Пользовались бережно и только по большим праздникам. Товар в отличном состоянии. Если товар не понравится — верну всё до последней копейки. При покупке с меня бесплатная доставка в черте города.`,
-    "type": `sale`,
-    "sum": 2961,
-    "category": [`Книги`, `Разное`, `Посуда`, `Игры`],
-    "comments": [
-      {
-        "id": `GIFZka`,
-        "text": `С чем связана продажа? Почему так дешёво? Вы что?! В магазине дешевле.`
-      },
-      {
-        "id": `Z-rd7u`,
-        "text": `С чем связана продажа? Почему так дешёво? Вы что?! В магазине дешевле.`
-      },
-      {
-        "id": `hVUBHA`,
-        "text": `А сколько игр в комплекте? Совсем немного... С чем связана продажа? Почему так дешёво?`
-      },
-      {
-        "id": `Ckib22`,
-        "text": `А сколько игр в комплекте? Совсем немного... Почему в таком ужасном состоянии?`}]
-  },
-  {
-    "id": `nvwUZ4`,
-    "title": `Продам отличную подборку фильмов на VHS`,
-    "picture": `item08.jpg`,
-    "description": `Это настоящая находка для коллекционера! Бонусом отдам все аксессуары. Таких предложений больше нет! Если товар не понравится — верну всё до последней копейки.`,
-    "type": `sale`,
-    "sum": 79017,
-    "category": [`Животные`, `Книги`],
-    "comments": [
-      {
-        "id": `8HL2Tf`,
-        "text": `Неплохо, но дорого.`
-      },
-      {
-        "id": `olx3Fh`,
-        "text": `Неплохо, но дорого. Почему в таком ужасном состоянии? А сколько игр в комплекте?`
-      },
-      {
-        "id": `Onx-y5`,
-        "text": `Вы что?! В магазине дешевле. Совсем немного...`}]
-  },
-  {
-    "id": `8OJWau`,
-    "title": `Продам отличную подборку фильмов на VHS`,
-    "picture": `item01.jpg`,
-    "description": `Это настоящая находка для коллекционера! Пользовались бережно и только по большим праздникам. Таких предложений больше нет! Даю недельную гарантию.`,
-    "type": `sale`,
-    "sum": 97324,
-    "category": [`Животные`, `Посуда`, `Игры`, `Разное`],
-    "comments": [
-      {
-        "id": `yEmooM`,
-        "text": `Вы что?! В магазине дешевле.`}]
-  },
-  {
-    "id": `cb9fOs`,
-    "title": `Продам отличную подборку фильмов на VHS`,
-    "picture": `item12.jpg`,
-    "description": `Бонусом отдам все аксессуары. Если товар не понравится — верну всё до последней копейки. Если найдёте дешевле — сброшу цену. Это настоящая находка для коллекционера!`,
-    "type": `sale`,
-    "sum": 22663,
-    "category": [`Книги`, `Животные`, `Посуда`],
-    "comments": [
-      {
-        "id": `S-P81x`,
-        "text": `Совсем немного... Неплохо, но дорого. С чем связана продажа? Почему так дешёво?`
-      },
-      {
-        "id": `FVXnIc`,
-        "text": `С чем связана продажа? Почему так дешёво? Вы что?! В магазине дешевле.`
-      },
-      {
-        "id": `BNlBY7`,
-        "text": `С чем связана продажа? Почему так дешёво? Оплата наличными или перевод на карту? А сколько игр в комплекте?`
-      },
-      {
-        "id": `vWruYt`,
-        "text": `Почему в таком ужасном состоянии? С чем связана продажа? Почему так дешёво?`}]
-  },
-  {
-    "id": `l6WLss`,
-    "title": `Куплю антиквариат`,
-    "picture": `item15.jpg`,
-    "description": `Продаю с болью в сердце... Даю недельную гарантию. Бонусом отдам все аксессуары. Это настоящая находка для коллекционера!`,
-    "type": `sale`,
-    "sum": 76232,
-    "category": [`Книги`, `Животные`],
-    "comments": [
-      {
-        "id": `0XNQtC`,
-        "text": `А где блок питания? Неплохо, но дорого.`
-      },
-      {
-        "id": `UeICRl`,
-        "text": `Почему в таком ужасном состоянии? А сколько игр в комплекте?`}]}
-];
+const mockData = require(`./mock-data`);
 
 const newOffer = {
   category: `Котики`,
@@ -144,7 +43,7 @@ describe(`API returns a list of all offers`, () => {
 
   test(`Returns a list of 5 offers`, () => expect(response.body.length).toBe(5));
 
-  test(`First offer's id equals "4zTBRX"`, () => expect(response.body[0].id).toBe(`4zTBRX`));
+  test(`First offer's id equals "f8NYhk"`, () => expect(response.body[0].id).toBe(`f8NYhk`));
 
 });
 
@@ -156,12 +55,12 @@ describe(`API returns an offer with given id`, () => {
 
   beforeAll(async () => {
     response = await request(app)
-      .get(`/offers/4zTBRX`);
+      .get(`/offers/f8NYhk`);
   });
 
   test(`Status code 200`, () => expect(response.statusCode).toBe(HttpCode.OK));
 
-  test(`Offer's title is "Куплю антиквариат"`, () => expect(response.body.title).toBe(`Куплю антиквариат`));
+  test(`Offer's title is "Куплю породистого кота"`, () => expect(response.body.title).toBe(`Куплю породистого кота`));
 
 });
 
@@ -215,7 +114,7 @@ describe(`API changes existent offer`, () => {
 
   beforeAll(async () => {
     response = await request(app)
-      .put(`/offers/4zTBRX`)
+      .put(`/offers/f8NYhk`)
       .send(newOffer);
   });
 
@@ -224,7 +123,7 @@ describe(`API changes existent offer`, () => {
   test(`Returns changed offer`, () => expect(response.body).toEqual(expect.objectContaining(newOffer)));
 
   test(`Offer is really changed`, () => request(app)
-    .get(`/offers/4zTBRX`)
+    .get(`/offers/f8NYhk`)
     .expect((res) => expect(res.body.title).toBe(`Дам погладить котика`))
   );
 
@@ -263,7 +162,7 @@ test(`API returns status code 400 when trying to change an offer with invalid da
   };
 
   return request(app)
-    .put(`/offers/4zTBRX`)
+    .put(`/offers/f8NYhk`)
     .send(invalidOffer)
     .expect(HttpCode.BAD_REQUEST);
 });
@@ -276,12 +175,12 @@ describe(`API correctly deletes an offer`, () => {
 
   beforeAll(async () => {
     response = await request(app)
-      .delete(`/offers/4zTBRX`);
+      .delete(`/offers/f8NYhk`);
   });
 
   test(`Status code 200`, () => expect(response.statusCode).toBe(HttpCode.OK));
 
-  test(`Returns deleted offer`, () => expect(response.body.id).toBe(`4zTBRX`));
+  test(`Returns deleted offer`, () => expect(response.body.id).toBe(`f8NYhk`));
 
   test(`Offer count is 4 now`, () => request(app)
     .get(`/offers`)
@@ -318,7 +217,7 @@ test(`API refuses to delete non-existent comment`, () => {
   const app = createAPI();
 
   return request(app)
-    .delete(`/offers/4zTBRX/comments/NOEXST`)
+    .delete(`/offers/f8NYhk/comments/NOEXST`)
     .expect(HttpCode.NOT_FOUND);
 
 });

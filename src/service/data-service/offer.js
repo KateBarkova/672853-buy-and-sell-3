@@ -9,8 +9,11 @@ class OfferService {
   }
 
   create(offer) {
-    const newOffer = Object
-      .assign({id: nanoid(MAX_ID_LENGTH), comments: []}, offer);
+    const newOffer = {
+      id: nanoid(MAX_ID_LENGTH),
+      comments: [],
+      ...offer
+    };
 
     this._offers = [
       ...this._offers,
@@ -19,18 +22,18 @@ class OfferService {
     return newOffer;
   }
 
-  find(id) {
-    return this._offers.find((item) => item.id === id);
+  find(offerId) {
+    return this._offers.find(({id}) => id === offerId);
   }
 
-  drop(id) {
-    const offer = this.find(id);
+  drop(offerId) {
+    const offer = this.find(offerId);
 
     if (!offer) {
       return null;
     }
 
-    this._offers = this._offers.filter((item) => item.id !== id);
+    this._offers = this._offers.filter(({id}) => id !== offerId);
     return offer;
   }
 
@@ -42,13 +45,15 @@ class OfferService {
     return this.find(id);
   }
 
-  update(id, offer) {
-    const oldOffer = this.find(id);
+  update(id, newOffer) {
+    this._offers = this._offers.map((offer) => offer.id === id ? {
+      ...offer,
+      ...newOffer,
+    } : offer);
 
-    return {
-      ...oldOffer,
-      ...offer
-    };
+    const offer = this.find(id);
+
+    return offer;
   }
 
 }
