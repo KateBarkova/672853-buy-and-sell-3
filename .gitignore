@@ -18,3 +18,5 @@ mocks.json
 
 src/express/upload
 
+# Файл с переменными окружения
+.env
